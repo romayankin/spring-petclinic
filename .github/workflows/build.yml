@@ -36,6 +36,19 @@ jobs:
           key: ${{ runner.os }}-maven-wrapper-${{ hashFiles('./spring-petclinic/.mvn/wrapper/maven-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-spring-petclinic-maven-wrapper
 
+      - name: Build and Run Contrast Scan
+        run: ./mvnw --batch-mode verify
+        env:
+          CONTRAST__API__URL: ${{ secrets.CONTRAST__API__URL }}
+          CONTRAST__API__ORGANIZATION_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
+          CONTRAST__API__USER_NAME: ${{ secrets.CONTRAST__API__USER_NAME }}
+          CONTRAST__API__API_KEY: ${{ secrets.CONTRAST__API__API_KEY }}
+          CONTRAST__API__SERVICE_KEY: ${{ secrets.CONTRAST__API__SERVICE_KEY }}
+      - name: Upload Contrast Scan Results
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: target/contrast-scan-reports/contrast-scan-results.sarif.json
+          
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -75,15 +88,4 @@ jobs:
           CONTRAST_HOST: ${{ secrets.CONTRAST__API__URL }}
           CONTRAST_APPLICATION_ID: ${{ secrets.CONTRAST_APPLICATION_ID }}
           LANGUAGE: "JAVA"
-      - name: Build and Run Contrast Scan
-        run: ./mvnw --batch-mode verify
-        env:
-          CONTRAST__API__URL: ${{ secrets.CONTRAST__API__URL }}
-          CONTRAST__API__ORGANIZATION_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
-          CONTRAST__API__USER_NAME: ${{ secrets.CONTRAST__API__USER_NAME }}
-          CONTRAST__API__API_KEY: ${{ secrets.CONTRAST__API__API_KEY }}
-          CONTRAST__API__SERVICE_KEY: ${{ secrets.CONTRAST__API__SERVICE_KEY }}
-      - name: Upload Contrast Scan Results
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: target/contrast-scan-reports/contrast-scan-results.sarif.json
+
