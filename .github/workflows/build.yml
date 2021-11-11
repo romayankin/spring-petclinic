@@ -34,7 +34,25 @@ jobs:
           restore-keys: ${{ runner.os }}-spring-petclinic-maven-wrapper
 
       - uses: actions/checkout@v2
-
+      - run: contrast-cli --api_key $CONTRAST_API_KEY --authorization $CONTRAST_AUTHORIZATION --organization_id $CONTRAST_ORG_ID --host $CONTRAST_HOST --application_id $CONTRAST_APPLICATION_ID --language $LANGUAGE
+        name: Contrast OSS Submit
+        env:
+          CONTRAST_API_KEY: ${{ secrets.CONTRAST__API__API_KEY }}
+          CONTRAST_AUTHORIZATION: ${{ secrets.CONTRAST_AUTHORIZATION_HEADER }}
+          CONTRAST_ORG_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
+          CONTRAST_HOST: ${{ secrets.CONTRAST__API__URL }}
+          CONTRAST_APPLICATION_ID: ${{ secrets.CONTRAST_APPLICATION_ID }}
+          LANGUAGE: "NODE"
+          
+      - run: contrast-cli -r -f -s high --silent --api_key $CONTRAST_API_KEY --authorization $CONTRAST_AUTHORIZATION --organization_id $CONTRAST_ORG_ID --host $CONTRAST_HOST --application_id $CONTRAST_APPLICATION_ID --language $LANGUAGE
+        name: Contrast OSS Check
+        env:
+          CONTRAST_API_KEY: ${{ secrets.CONTRAST__API__API_KEY }}
+          CONTRAST_AUTHORIZATION: ${{ secrets.CONTRAST_AUTHORIZATION_HEADER }}
+          CONTRAST_ORG_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
+          CONTRAST_HOST: ${{ secrets.CONTRAST__API__URL }}
+          CONTRAST_APPLICATION_ID: ${{ secrets.CONTRAST_APPLICATION_ID }}
+          LANGUAGE: "NODE"
       - name: Build and Run Contrast Scan
         run: ./mvnw --batch-mode verify
         env:
@@ -43,7 +61,6 @@ jobs:
           CONTRAST__API__USER_NAME: ${{ secrets.CONTRAST__API__USER_NAME }}
           CONTRAST__API__API_KEY: ${{ secrets.CONTRAST__API__API_KEY }}
           CONTRAST__API__SERVICE_KEY: ${{ secrets.CONTRAST__API__SERVICE_KEY }}
-
       - name: Upload Contrast Scan Results
         uses: github/codeql-action/upload-sarif@v1
         with:
