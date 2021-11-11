@@ -64,7 +64,7 @@ jobs:
           CONTRAST_ORG_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
           CONTRAST_HOST: ${{ secrets.CONTRAST__API__URL }}
           CONTRAST_APPLICATION_ID: ${{ secrets.CONTRAST_APPLICATION_ID }}
-          LANGUAGE: "NODE"
+          LANGUAGE: "JAVA"
           
       - run: contrast-cli -r -f -s high --silent --api_key $CONTRAST_API_KEY --authorization $CONTRAST_AUTHORIZATION --organization_id $CONTRAST_ORG_ID --host $CONTRAST_HOST --application_id $CONTRAST_APPLICATION_ID --language $LANGUAGE
         name: Contrast OSS Check
@@ -74,7 +74,7 @@ jobs:
           CONTRAST_ORG_ID: ${{ secrets.CONTRAST__API__ORGANIZATION_ID }}
           CONTRAST_HOST: ${{ secrets.CONTRAST__API__URL }}
           CONTRAST_APPLICATION_ID: ${{ secrets.CONTRAST_APPLICATION_ID }}
-          LANGUAGE: "NODE"
+          LANGUAGE: "JAVA"
       - name: Build and Run Contrast Scan
         run: ./mvnw --batch-mode verify
         env:
