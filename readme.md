@@ -48,7 +48,7 @@ Further documentation is provided [here](https://github.com/spring-projects/spri
 
 ## Working with Petclinic in your IDE
 
-### Prerequisites
+### Prerequisites:
 The following items should be installed in your system:
 * Java 8 or newer (full JDK not a JRE).
 * git command line tool (https://help.github.com/articles/set-up-git)
