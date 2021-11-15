@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-analyze:
-    name: Test and Analyze
+  contrast-static-scan:
+    name: Contrast Static Scan
     runs-on: ubuntu-latest
     strategy:
       matrix:
